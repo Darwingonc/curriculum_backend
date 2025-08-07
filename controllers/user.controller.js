@@ -24,12 +24,11 @@ class UserController {
 
     async create (req, response){
         const body = req.body;
-        console.log(body)
         const query =   await userQueries.perfil(body) ;
         if ( query.ok) {
             return response.status(200).json({ok: true,  data: query.data});
         }else {
-            return   response.status(403).json({ok: false, message: 'error al crear perfil'});
+            return   response.status(404).json({ok: false, message: 'error al crear perfil'});
         }
     }
 
@@ -80,8 +79,10 @@ class UserController {
 
     async registros (req, res){
         const body = req.body;
-        /*body.password = await bcrypt.hash(body.password, 8);
-        const query =   await userQueries.registro(body);*/
+        body.password = await bcrypt.hash(body.password, 8);
+        const query =   await userQueries.registro(body);
+
+
         if(query.ok){
             try {
                 const token = UserController.payload.createToken(query.data);
@@ -156,7 +157,6 @@ class UserController {
     async encontrarHabilidades (req, res){
         const body = req.body;
         const query = await userQueries.encontrarHabilidad({
-            id_perfil: body.id_perfil,
         });
         if (query.ok) {
             return res.status(200).json({ok: true, data: query.data});
@@ -187,7 +187,6 @@ class UserController {
             id_perfil: body.id_perfil
         });
 
-        console.log('query result', query)
         if (query && query.ok) {
             return res.status(200).json({ok: true, data: query.data});
         } else {
@@ -247,7 +246,6 @@ class UserController {
             id_perfil: body.id_perfil
         });
 
-        console.log('query result', query)
         if (query && query.ok) {
             return res.status(200).json({ok: true, data: query.data});
         } else {
@@ -260,7 +258,6 @@ class UserController {
 
     async crearExperiencias (req, response){
         const body = req.body;
-        console.log(body)
         const query =   await userQueries.crearExperiencia(body) ;
         if ( query.ok) {
             return response.status(200).json({ok: true,  data: query.data});
@@ -271,7 +268,6 @@ class UserController {
 
     async encontrarExperiencias (req, res){
         const body = req.body;
-        console.log(body);
         const query = await userQueries.encontrarExperiencia({
             id_perfil: body.id_perfil,
         });

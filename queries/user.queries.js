@@ -23,12 +23,10 @@
      async registro(user){
          try    {
              const query  = await UserModel.create(user) ;
-             if (query) {
-                 return {ok: true, data: query};
-             }
+             return {ok: true, data: query};
          }catch (e) {
-             console.log(' error  al ejecutar query',e );
-             return {ok: false, data: null  }
+             console.log(' error  al ejecutar resgistro',e );
+             return {ok: false }
          }
      }
 
