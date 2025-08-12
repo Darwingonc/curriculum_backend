@@ -4,7 +4,7 @@
  import {ExperienciaModel} from "../models/experiencia.model.js";
 
 
- class UserQueries {
+ export class UserQueries {
 
     async perfil( user ){
          try    {
@@ -83,9 +83,9 @@
          }
      }
 
-     async encontrarHabilidad(condition = {}){
+     async encontrarHabilidad(id){
          try {
-             const query = await HabilidadesModel.findAll({ where: condition});
+             const query = await HabilidadesModel.findAll({ where: {id_perfil: id}});
              if(query) {
                  return { ok: true, data: query };
              }
@@ -267,14 +267,10 @@
      async findOne(condition = {}){
          try {
              const query = await UserModel.findOne({ where: condition});
-             if(query) {
-                 return { ok: true, data: query };
-             }
+             return { ok: true, data: query };
          } catch (e) {
              console.log('Error al ejecutar query', e);
              return { ok: false, data: null };
          }
      }
  }
-
- export const userQueries = new UserQueries();

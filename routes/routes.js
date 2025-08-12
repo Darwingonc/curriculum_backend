@@ -12,20 +12,14 @@ export class  Routes   {
             res.send(" hola mundo");
         }) ;
 
-        app.post( '/data,', userController.processData);
-
-         app.post( '/test', userController.sayHello) ;
-
-         app.post('user-create', userController.create);
-
          app.route('/find_user', userController.find)
              .post([validateToken.validateJWT], userController.find);
 
          //RUTAS PERFILES
 
-        app.post('/login', userController.login);
+        app.route('/login').post(userController.login);
 
-        app.post('/registro', userController.registros);
+        app.route('/registro').post(userController.registros);
 
         app.route('/encontrar_perfil').post(userController.encontrarPerfiles)
 
