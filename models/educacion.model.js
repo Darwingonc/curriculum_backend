@@ -19,10 +19,10 @@ EducacionModel.init( {
             type: DataTypes.STRING(40) ,
             allowNull: true
         },
-        /*nivel:  {
+        nivel:  {
             type: DataTypes.STRING(30) ,
             allowNull: true
-        },*/
+        },
         descripcion:  {
             type: DataTypes.TEXT,
             allowNull: true

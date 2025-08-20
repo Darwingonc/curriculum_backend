@@ -12,26 +12,23 @@ export class  Routes   {
             res.send(" hola mundo");
         }) ;
 
-         app.route('/find_user', userController.find)
-             .post([validateToken.validateJWT], userController.find);
 
          //RUTAS PERFILES
-
         app.route('/login').post(userController.login);
 
         app.route('/registro').post(userController.registros);
 
-        app.route('/encontrar_perfil').post(userController.encontrarPerfiles)
+        app.route('/encontrar_perfil').get(validateToken.validateJWT, userController.encontrarPerfil);
 
-        app.route('/actualizar_perfil').patch([validateToken.validateJWT], userController.actualizarPerfiles);
+        app.route('/actualizar_perfil').patch(validateToken.validateJWT, userController.actualizarPerfiles);
 
          //RUTAS HABILIDADES
 
-         app.route('/crear_habilidades').post([validateToken.validateJWT], userController.crearHabilidades);
+         app.route('/crear_habilidades').post(validateToken.validateJWT, userController.crearHabilidades);
 
          app.route('/encontrar_habilidades').post(userController.encontrarHabilidades);
 
-        app.route('/actualizar_habilidades').patch([validateToken.validateJWT], userController.actualizarHabilidades);
+        app.route('/actualizar_habilidades').patch(validateToken.validateJWT, userController.actualizarHabilidades);
 
         app.route('/eliminar_habilidades').post([validateToken.validateJWT], userController.eliminarHabilidades);
 

@@ -93,8 +93,6 @@ class UserController {
                 errors: [{ message: 'Usuario no encontrado.' }]
             });
         }
-        console.log(result.data.password)
-        console.log(password);
 
         const validPassword = bcrypt.compareSync(password, result.data.password);
 
@@ -116,47 +114,20 @@ class UserController {
 
         return res.status(JsonResponse.OK).json({
             ok: true,
+            message: 'Usuario inició sesión exitosamente',
             token: tokenResult.data,
             data: result.data
         });
     }
 
-    async create (req, response){
-        const body = req.body;
-        const query =   await UserController.userQueries.perfil(body) ;
-        if ( query.ok) {
-            return response.status(200).json({ok: true,  data: query.data});
-        }else {
-            return   response.status(404).json({ok: false, message: 'error al crear perfil'});
-        }
-    }
-
-
-    async find(req, res){
-        const body = req.body;
-        const condition = body.condition;
-        // const id = body.id;
-        const query = await UserController.userQueries.findOne(condition);
-        if (query.ok) {
-            return res.status(200).json({ok: true, data: query.data});
-        } else {
-            return res.status(403).json({ok: false, message: 'Error on process request'});
-        }
-    }
-
     //CRUD PERFILES
-
-
-
-    async encontrarPerfiles (req, res){
-        const body = req.body;
-        const query = await UserController.userQueries.encontrarPerfil({
-            id: body.id,
-        });
+    async encontrarPerfil (req, res){
+        const user_id = req.body.id_token;
+        const query = await UserController.userQueries.encontrarPerfil({id: user_id,});
         if (query && query.ok) {
             return res.status(200).json({ok: true, data: query.data});
         } else {
-            return res.status(403).json({ok: false, message: 'Error on process request'});
+            return res.status(JsonResponse.FORBIDDEN).json({ok: false, message: 'Error al buscar datos del perfil'});
         }
     }
 
@@ -178,9 +149,9 @@ class UserController {
             ciudad: body.ciudad
         });
         if(query.ok){
-            return res.status(200).json({ok: true, data: query.data});
+            return res.status(200).json({ok: true, message: 'Perfil actualizado exitosamente', data: query.data});
         }else{
-            return res.status(403).json({ok: false, message: 'No found'});
+            return res.status(JsonResponse.BAD_REQUEST).json({ok: false, message: 'No found'});
         }
     }
 

@@ -32,7 +32,19 @@
 
      async encontrarPerfil(condition = {}){
          try {
-             const query = await UserModel.findOne({ where: condition});
+             const query = await UserModel.findOne({
+                 where: condition,
+                 include: [{
+                        model: HabilidadesModel,
+                        as: 'Habilidades',
+                    }, {
+                        model: EducacionModel,
+                        as: 'Educaciones',
+                    }, {
+                        model: ExperienciaModel,
+                        as: 'Experiencias',
+                 }]
+             });
              if(query) {
                  return { ok: true, data: query };
              }
